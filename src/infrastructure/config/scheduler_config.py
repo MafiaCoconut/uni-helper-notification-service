@@ -16,6 +16,8 @@ scheduler_interface = SchedulerInterfaceImpl(
 )
 
 
-schedulers_service = SchedulerService(
-    scheduler_interface=scheduler_interface
+scheduler_service = SchedulerService(
+    scheduler_interface=scheduler_interface,
+    notification_service=notification_service
 )
+

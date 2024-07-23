@@ -24,16 +24,13 @@ class SchedulerInterfaceImpl(SchedulerInterface):
             hour=job.hour,
             minute=job.minute,
             args=job.args,
-            id=job.job_id
-
+            id=job.job_id,
         )
 
     async def set_all_jobs(self):
         data = await self.users_service.get_user_id_and_mailing_time()
-        print(data)
 
         for user in data:
-            print(user)
             if user.get('mailing_time') == '-':
                 continue
             hour, minute = user.get('mailing_time').split(':')
@@ -44,10 +41,19 @@ class SchedulerInterfaceImpl(SchedulerInterface):
                 hour=hour,
                 minute=minute,
                 args=[user.get('user_id')],
-                job_id=f"canteens_menu {user.get('user_id')}"
+                job_id=f"canteens_menu {user.get('user_id')}",
             ))
 
         self.scheduler.start()
+
+    async def delete_job(self, job_id: str):
+        self.scheduler.remove_job(job_id=job_id)
+
+    async def get_all_jobs(self) -> list[str]:
+        jobs = self.scheduler.get_jobs()
+        return [f"Job ID: {job.id}, Next Run Time: {job.next_run_time}" for job in jobs]
+
+
 
 
 
