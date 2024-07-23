@@ -16,7 +16,7 @@ class NotificationWebInterfaceImpl(NotificationWebInterface):
     @log_decorator
     async def send_canteens_menu(user_id: int) -> None:
         async with aiohttp.ClientSession() as session:
-            async with session.get(
+            async with session.post(
                     f"{os.getenv('CORE_ADDRESS')}/notification/canteens_menu/{user_id}",
                     params={}
             ) as resp:
@@ -30,7 +30,7 @@ class NotificationWebInterfaceImpl(NotificationWebInterface):
     @log_decorator
     async def send_admins_message(self, user_id: int, msg: str) -> None:
         async with aiohttp.ClientSession() as session:
-            async with session.get(
+            async with session.post(
                     f"{os.getenv('CORE_ADDRESS')}/notification/admins_message/{user_id}",
                     params={}
             ) as resp:

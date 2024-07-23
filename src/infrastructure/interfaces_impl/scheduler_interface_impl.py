@@ -33,6 +33,7 @@ class SchedulerInterfaceImpl(SchedulerInterface):
         print(data)
 
         for user in data:
+            print(user)
             if user.get('mailing_time') == '-':
                 continue
             hour, minute = user.get('mailing_time').split(':')
@@ -42,9 +43,11 @@ class SchedulerInterfaceImpl(SchedulerInterface):
                 trigger='cron',
                 hour=hour,
                 minute=minute,
-                args=(user.get('id')),
-                job_id=f"canteens_menu {user.get('id')}"
+                args=[user.get('user_id')],
+                job_id=f"canteens_menu {user.get('user_id')}"
             ))
+
+        self.scheduler.start()
 
 
 

@@ -18,8 +18,8 @@ class NotificationService:
         )
 
     @log_decorator
-    async def send_canteen_menu(self, user_id: int, locale: str):
-        await self.send_canteens_menu_use_case.execute(user_id=user_id, locale=locale)
+    async def send_canteen_menu(self, user_id: int):
+        await self.send_canteens_menu_use_case.execute(user_id=user_id)
 
     @log_decorator
     async def send_admins_mailing_message(self, users: list[int]):

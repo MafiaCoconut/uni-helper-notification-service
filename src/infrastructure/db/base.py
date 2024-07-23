@@ -23,7 +23,7 @@ import os
 
 async_engine = create_async_engine(
     url=db_settings.DATABASE_URL_asyncpg,
-    echo=True,
+    echo=False,
     pool_size=10,
     max_overflow=20,
     pool_timeout=30,
@@ -45,4 +45,3 @@ async def get_db() -> AsyncSession:
         yield session
 
 
-        
