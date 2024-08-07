@@ -1,8 +1,8 @@
-from application.interfaces.notification_web_interface import NotificationWebInterface
+from application.interfaces.notification_gateway import NotificationGateway
 
 
 class SendAdminsMailingMessageNotificationUseCase:
-    def __init__(self, notification_interface: NotificationWebInterface):
+    def __init__(self, notification_interface: NotificationGateway):
         self.notification_interface = notification_interface
 
     def execute(self, users: list[int]):

@@ -1,8 +1,8 @@
-from application.interfaces.notification_web_interface import NotificationWebInterface
+from application.interfaces.notification_gateway import NotificationGateway
 
 
 class SendCanteensMenuNotificationUseCase:
-    def __init__(self, notification_interface: NotificationWebInterface):
+    def __init__(self, notification_interface: NotificationGateway):
         self.notification_interface = notification_interface
 
     async def execute(self, user_id: int):

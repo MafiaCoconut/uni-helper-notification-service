@@ -10,7 +10,8 @@ class UsersRepositoryImpl(UsersRepository):
         self.session = session
 
     async def get_user_id_and_mailing_time(self):
-        query = select(UserOrm.user_id, UserOrm.mailing_time)
-        result = await self.session.execute(query)
-        rows = result.fetchall()
-        return [{"user_id": row.user_id, "mailing_time": row.mailing_time} for row in rows]
+        async with self.session.begin():
+            query = select(UserOrm.user_id, UserOrm.mailing_time)
+            result = await self.session.execute(query)
+            rows = result.fetchall()
+            return [{"user_id": row.user_id, "mailing_time": row.mailing_time} for row in rows]

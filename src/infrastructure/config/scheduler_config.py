@@ -9,15 +9,16 @@ from infrastructure.interfaces_impl.scheduler_interface_impl import SchedulerInt
 scheduler = AsyncIOScheduler(timezone=timezone("Europe/Berlin"))
 
 
-scheduler_interface = SchedulerInterfaceImpl(
-    notification_service=notification_service,
-    users_service=users_service,
-    scheduler=scheduler
-)
+def get_scheduler_interface() -> SchedulerInterfaceImpl:
+    return SchedulerInterfaceImpl(
+        notification_service=notification_service,
+        users_service=users_service,
+        scheduler=scheduler
+    )
 
 
-scheduler_service = SchedulerService(
-    scheduler_interface=scheduler_interface,
-    notification_service=notification_service
-)
-
+def get_scheduler_service() -> SchedulerService:
+    return SchedulerService(
+        scheduler_interface=get_scheduler_interface(),
+        notification_service=notification_service
+    )

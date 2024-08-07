@@ -1,4 +1,4 @@
-from application.interfaces.notification_web_interface import NotificationWebInterface
+from application.interfaces.notification_gateway import NotificationGateway
 from infrastructure.config.logs_config import log_decorator
 
 import aiohttp
@@ -11,7 +11,7 @@ load_dotenv()
 error_logger = logging.getLogger('error_logger')
 
 
-class NotificationWebInterfaceImpl(NotificationWebInterface):
+class NotificationGatewayImpl(NotificationGateway):
     @staticmethod
     @log_decorator
     async def send_canteens_menu(user_id: int) -> None:
@@ -28,7 +28,7 @@ class NotificationWebInterfaceImpl(NotificationWebInterface):
 
     @staticmethod
     @log_decorator
-    async def send_admins_message(self, user_id: int, msg: str) -> None:
+    async def send_admins_message(user_id: int, msg: str) -> None:
         async with aiohttp.ClientSession() as session:
             async with session.post(
                     f"{os.getenv('CORE_ADDRESS')}/notification/admins_message/{user_id}",

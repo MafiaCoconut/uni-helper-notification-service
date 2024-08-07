@@ -1,3 +1,4 @@
+from application.exceptions.jobs_exceptions import JobInvalidData
 from application.interfaces.scheduler_interface import SchedulerInterface
 from domain.entities.job import Job
 from typing import Optional, Callable
@@ -13,7 +14,16 @@ class UpdateUsersMailingTimeUseCase:
         except:
             pass
 
+        if (new_mailing_time.find(':') != 2
+                or not (new_mailing_time[:2].isdigit())
+                or not (new_mailing_time[3:].isdigit())
+        ):
+            raise JobInvalidData()
+
         hour, minute = new_mailing_time.split(':')
+        if not (0 <= int(hour) <= 24) or not (0 <= int(minute) <= 60):
+            raise JobInvalidData()
+
         await self.scheduler_interface.add_job(
             Job(
                 func=func,
@@ -24,7 +34,3 @@ class UpdateUsersMailingTimeUseCase:
                 job_id=f'canteens_menu {user_id}',
             )
         )
-
-
-
-

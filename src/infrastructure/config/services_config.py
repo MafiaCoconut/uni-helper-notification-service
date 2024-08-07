@@ -1,12 +1,12 @@
 
 from application.services.notification_service import NotificationService
 from application.services.users_service import UsersService
-from infrastructure.config.interfaces_config import notification_interface
+from infrastructure.config.interfaces_config import get_notification_interface
 from infrastructure.config.repositories_config import get_users_repository
 
 
 notification_service = NotificationService(
-    notification_interface=notification_interface
+    notification_interface=get_notification_interface()
 )
 
 users_service = UsersService(
