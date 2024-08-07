@@ -14,10 +14,11 @@ async def update_mailing_time(
         scheduler_service: SchedulerService = Depends(get_scheduler_service)
 ):
     try:
-        await scheduler_service.update_mailing_time(user_id=user_id, new_mailing_time=mailing_time)
+        await scheduler_service.update_mailing_time(user_id=user_id, new_mailing_time=new_mailing_time)
     except JobInvalidData as e:
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {'error': e}
+
 
 @router.get('/jobs/getAll')
 async def get_all_jobs(
