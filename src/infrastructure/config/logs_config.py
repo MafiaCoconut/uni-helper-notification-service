@@ -79,3 +79,19 @@ def log_decorator(func, log_level=logging.DEBUG):
         return result
 
     return wrapper
+
+
+def log_api_decorator(func, log_level=logging.INFO):
+    @wraps(func)
+    async def wrapper(*args, **kwargs):
+        system_logger.log(level=log_level, msg=f"Called function: {func.__name__}")
+
+        # Выполнение функции и получение результата
+        result = await func(*args, **kwargs)
+
+        # Запись результата выполнения функции
+        system_logger.log(level=log_level, msg=f"Result: {result}")
+
+        return result
+
+    return wrapper

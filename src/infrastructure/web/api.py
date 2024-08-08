@@ -2,6 +2,7 @@ from fastapi import Depends, APIRouter, Path, Response, status
 
 from application.exceptions.jobs_exceptions import JobInvalidData
 from application.services.scheduler_service import SchedulerService
+from infrastructure.config.logs_config import log_api_decorator
 from infrastructure.config.scheduler_config import get_scheduler_service
 from infrastructure.config.services_config import notification_service
 
@@ -9,6 +10,7 @@ router = APIRouter()
 
 
 @router.put('/user{user_id}/updateMailingTime')
+@log_api_decorator
 async def update_mailing_time(
         user_id: int, new_mailing_time: str, response: Response,
         scheduler_service: SchedulerService = Depends(get_scheduler_service)
@@ -21,6 +23,7 @@ async def update_mailing_time(
 
 
 @router.get('/jobs/getAll')
+@log_api_decorator
 async def get_all_jobs(
         response: Response,
         scheduler_service: SchedulerService = Depends(get_scheduler_service)
@@ -29,6 +32,7 @@ async def get_all_jobs(
 
 
 @router.post('/user{user_id}/addUsersMailingTime')
+@log_api_decorator
 async def create_new_users_job(
         user_id: int, mailing_time: str, response: Response,
         scheduler_service: SchedulerService = Depends(get_scheduler_service)
