@@ -46,7 +46,7 @@ class SchedulerService:
         for job in jobs:
             await self.scheduler_interface.add_job(job)
 
-    async def delete_job(self, user_id: int) -> None:
+    async def delete_canteens_menu_job(self, user_id: int) -> None:
         await self.delete_canteens_mailing_job_use_case.execute(user_id=user_id)
 
     async def config(self):

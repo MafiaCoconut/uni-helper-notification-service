@@ -51,7 +51,7 @@ async def delete_users_job(
         scheduler_service: SchedulerService = Depends(get_scheduler_service)
 ):
     try:
-        await scheduler_service.delete_job(user_id=user_id)
+        await scheduler_service.delete_canteens_menu_job(user_id=user_id)
     except JobNotExisted as e:
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {'error': e}

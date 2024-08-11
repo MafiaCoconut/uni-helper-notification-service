@@ -21,7 +21,7 @@ class UpdateUsersMailingTimeUseCase:
             raise JobInvalidData()
 
         hour, minute = new_mailing_time.split(':')
-        if not (0 <= int(hour) <= 24) or not (0 <= int(minute) <= 60):
+        if not (0 <= int(hour) <= 24) or not (0 <= int(minute) <= 59):
             raise JobInvalidData()
 
         await self.scheduler_interface.add_job(
