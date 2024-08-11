@@ -17,6 +17,9 @@ class SchedulerInterfaceImpl(SchedulerInterface):
         self.users_service = users_service
         self.scheduler = scheduler
 
+    async def start(self) -> None:
+        self.scheduler.start()
+
     async def add_job(self, job: Job) -> None:
         self.scheduler.add_job(
             func=job.func,

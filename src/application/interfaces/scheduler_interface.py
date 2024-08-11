@@ -5,6 +5,10 @@ from typing import List
 
 class SchedulerInterface(ABC):
     @abstractmethod
+    async def start(self) -> None:
+        pass
+
+    @abstractmethod
     async def add_job(self, job) -> None:
         pass
 

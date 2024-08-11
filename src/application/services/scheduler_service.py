@@ -3,24 +3,43 @@ from datetime import datetime
 
 from application.interfaces.scheduler_interface import SchedulerInterface
 from application.services.notification_service import NotificationService
+from application.services.users_service import UsersService
 from application.use_cases.set_all_scheduler_use_case import SetAllSchedulersJobsUseCase
+from application.use_cases.set_canteens_mailing_job_use_case import SetCanteensMailingJobUseCase
 from application.use_cases.update_users_mailing_time_use_case import UpdateUsersMailingTimeUseCase
 from domain.entities.job import Job
 
 
 class SchedulerService:
-    def __init__(self, scheduler_interface: SchedulerInterface, notification_service: NotificationService):
+    def __init__(self,
+                 scheduler_interface: SchedulerInterface,
+                 users_service: UsersService,
+                 notification_service: NotificationService,
+
+                 ):
         self.scheduler_interface = scheduler_interface
         self.notification_service = notification_service
-        self.set_all_schedulers_jobs = SetAllSchedulersJobsUseCase(scheduler_interface=self.scheduler_interface)
-        self.update_mailing_time_use_case = UpdateUsersMailingTimeUseCase(scheduler_interface=self.scheduler_interface)
+
+        self.set_canteens_mailing_job_use_case = SetCanteensMailingJobUseCase(
+            scheduler_interface=scheduler_interface,
+            notification_service=notification_service
+        )
+        self.set_all_schedulers_jobs = SetAllSchedulersJobsUseCase(
+            scheduler_interface=self.scheduler_interface,
+            users_service=users_service,
+            set_canteens_mailing_job_use_case=self.set_canteens_mailing_job_use_case
+        )
+        self.update_mailing_time_use_case = UpdateUsersMailingTimeUseCase(
+            scheduler_interface=self.scheduler_interface
+        )
+
 
     async def add_job(self, job: Job) -> None:
         await self.scheduler_interface.add_job(job)
 
-    def add_all_jobs(self, jobs: list) -> None:
+    async def add_jobs(self, jobs: list) -> None:
         for job in jobs:
-            self.scheduler_interface.add_job(job)
+            await self.scheduler_interface.add_job(job)
 
     async def delete_job(self, job_id: str) -> None:
         await self.scheduler_interface.delete_job(job_id)

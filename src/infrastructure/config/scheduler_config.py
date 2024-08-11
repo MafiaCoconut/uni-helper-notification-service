@@ -20,5 +20,6 @@ def get_scheduler_interface() -> SchedulerInterfaceImpl:
 def get_scheduler_service() -> SchedulerService:
     return SchedulerService(
         scheduler_interface=get_scheduler_interface(),
-        notification_service=notification_service
+        users_service=users_service,
+        notification_service=notification_service,
     )
