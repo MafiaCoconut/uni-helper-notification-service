@@ -16,8 +16,8 @@ class S3UseCase:
     @log_decorator
     async def upload_logs(self):
         logs_files = {
-            "notification_system_logs": "logs/system_data.log",
-            "notification_error_logs": "logs/error_data.log",
+            "notification_system_logs.txt": "logs/system_data.log",
+            "notification_error_logs.txt": "logs/error_data.log",
         }
         for file_name, file_path in logs_files.items():
             await self.s3_client.upload_file(file_path=file_path, file_name=file_name)
