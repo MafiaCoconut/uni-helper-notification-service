@@ -20,7 +20,8 @@ class SetCanteensMailingJobUseCase:
                 trigger='cron',
                 hour=hour,
                 minute=minute,
+                day_of_week='mon-fri',
                 args=[user_id],
-                job_id=f"canteens_menu {user_id}",
+                id=f"canteens_menu {user_id}",
             ))
 

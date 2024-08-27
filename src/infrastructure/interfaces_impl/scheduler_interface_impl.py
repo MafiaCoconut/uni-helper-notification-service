@@ -27,27 +27,9 @@ class SchedulerInterfaceImpl(SchedulerInterface):
             hour=job.hour,
             minute=job.minute,
             args=job.args,
-            id=job.job_id,
+            id=job.id,
+            day_of_week=job.day_of_week,
         )
-
-    async def set_all_jobs(self):
-        data = await self.users_service.get_user_id_and_mailing_time()
-
-        for user in data:
-            if user.get('mailing_time') == '-':
-                continue
-            hour, minute = user.get('mailing_time').split(':')
-
-            await self.add_job(Job(
-                func=self.notification_service.send_canteen_menu,
-                trigger='cron',
-                hour=hour,
-                minute=minute,
-                args=[user.get('user_id')],
-                job_id=f"canteens_menu {user.get('user_id')}",
-            ))
-
-        self.scheduler.start()
 
     async def delete_job(self, job_id: str):
         self.scheduler.remove_job(job_id=job_id)

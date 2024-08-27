@@ -3,10 +3,12 @@ from datetime import datetime
 
 from application.interfaces.scheduler_interface import SchedulerInterface
 from application.services.notification_service import NotificationService
+from application.services.s3_service import S3Service
 from application.services.users_service import UsersService
 from application.use_cases.delete_canteens_mailing_job_use_case import DeleteCanteensMailingJobUseCase
 from application.use_cases.set_all_scheduler_use_case import SetAllSchedulersJobsUseCase
 from application.use_cases.set_canteens_mailing_job_use_case import SetCanteensMailingJobUseCase
+from application.use_cases.set_s3_scheduler_job import SetS3JobUseCase
 from application.use_cases.update_users_mailing_time_use_case import UpdateUsersMailingTimeUseCase
 from domain.entities.job import Job
 
@@ -16,7 +18,7 @@ class SchedulerService:
                  scheduler_interface: SchedulerInterface,
                  users_service: UsersService,
                  notification_service: NotificationService,
-
+                 s3_service: S3Service,
                  ):
         self.scheduler_interface = scheduler_interface
         self.notification_service = notification_service
@@ -28,10 +30,15 @@ class SchedulerService:
         self.delete_canteens_mailing_job_use_case = DeleteCanteensMailingJobUseCase(
             scheduler_interface=scheduler_interface,
         )
+        set_s3_jobs_use_case = SetS3JobUseCase(
+            scheduler_interface=scheduler_interface,
+            s3_service=s3_service,
+        )
         self.set_all_schedulers_jobs = SetAllSchedulersJobsUseCase(
             scheduler_interface=self.scheduler_interface,
             users_service=users_service,
-            set_canteens_mailing_job_use_case=self.set_canteens_mailing_job_use_case
+            set_canteens_mailing_job_use_case=self.set_canteens_mailing_job_use_case,
+            set_s3_jobs_use_case=set_s3_jobs_use_case
         )
         self.update_mailing_time_use_case = UpdateUsersMailingTimeUseCase(
             scheduler_interface=self.scheduler_interface

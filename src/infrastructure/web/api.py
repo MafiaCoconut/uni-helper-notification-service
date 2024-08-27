@@ -22,15 +22,6 @@ async def update_mailing_time(
         return {'error': e}
 
 
-@router.get('/jobs/getAll')
-@log_api_decorator
-async def get_all_jobs(
-        response: Response,
-        scheduler_service: SchedulerService = Depends(get_scheduler_service)
-):
-    return {'text': await scheduler_service.get_all_jobs()}
-
-
 @router.post('/user{user_id}/addUsersMailingTime')
 @log_api_decorator
 async def create_new_users_job(
@@ -55,4 +46,13 @@ async def delete_users_job(
     except JobNotExisted as e:
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {'error': e}
+
+
+@router.get('/jobs/getAll')
+@log_api_decorator
+async def get_all_jobs(
+        response: Response,
+        scheduler_service: SchedulerService = Depends(get_scheduler_service)
+):
+    return {'text': await scheduler_service.get_all_jobs()}
 

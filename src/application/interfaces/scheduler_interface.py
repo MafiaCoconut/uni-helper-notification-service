@@ -13,10 +13,6 @@ class SchedulerInterface(ABC):
         pass
 
     @abstractmethod
-    async def set_all_jobs(self) -> List:
-        pass
-
-    @abstractmethod
     async def delete_job(self, job_id: str) -> None:
         pass
 
