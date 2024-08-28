@@ -4,7 +4,6 @@ import shutil
 from contextlib import asynccontextmanager
 
 import boto3
-from aiobotocore.session import get_session
 from dotenv import load_dotenv
 from icecream import ic
 load_dotenv()
