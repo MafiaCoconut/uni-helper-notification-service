@@ -17,7 +17,7 @@ class SetS3JobUseCase:
                 func=self.s3_service.upload_logs,
                 trigger='cron',
                 hour='0',
-                minute='0',
+                minute='0', 
                 id='s3_upload_logs',
                 day_of_week='mon,fri'
             )

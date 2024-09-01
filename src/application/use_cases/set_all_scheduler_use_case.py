@@ -27,14 +27,15 @@ class SetAllSchedulersJobsUseCase:
         self.set_s3_jobs_use_case = set_s3_jobs_use_case
 
     async def execute(self):
-        data = await self.users_service.get_user_id_and_mailing_time()
+        data = await self.users_service.get_users_all()
 
         for user in data:
-            if user.get('mailing_time') == '-':
+            if user.mailing_time == '-' or user.status == "deactivated":
                 continue
-            await self.set_canteens_mailing_job_use_case.execute(
-                user_id=user.get('user_id'), mailing_time=user.get('mailing_time')
-            )
+            else:
+                await self.set_canteens_mailing_job_use_case.execute(
+                    user_id=user.user_id, mailing_time=user.mailing_time
+                )
 
         await self.set_s3_jobs_use_case.execute()
 

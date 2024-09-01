@@ -3,6 +3,8 @@ from application.interfaces.scheduler_interface import SchedulerInterface
 from domain.entities.job import Job
 from typing import Optional, Callable
 
+from infrastructure.config.logs_config import error_logger, system_logger
+
 
 class UpdateUsersMailingTimeUseCase:
     def __init__(self, scheduler_interface: SchedulerInterface):
@@ -11,8 +13,9 @@ class UpdateUsersMailingTimeUseCase:
     async def execute(self, user_id: int, new_mailing_time: str, func: Callable):
         try:
             await self.scheduler_interface.delete_job(f'canteens_menu {user_id}')
-        except:
-            pass
+        except Exception as e:
+            error_logger.error(e)
+            system_logger.error(e)
 
         if (new_mailing_time.find(':') != 2
                 or not (new_mailing_time[:2].isdigit())
@@ -31,6 +34,6 @@ class UpdateUsersMailingTimeUseCase:
                 hour=hour,
                 minute=minute,
                 args=[user_id],
-                job_id=f'canteens_menu {user_id}',
+                id=f'canteens_menu {user_id}',
             )
         )

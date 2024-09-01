@@ -13,7 +13,7 @@ error_logger = logging.getLogger('error_logger')
 
 class NotificationGatewayImpl(NotificationGateway):
     @staticmethod
-    @log_decorator
+    @log_decorator(print_args=False)
     async def send_canteens_menu(user_id: int) -> None:
         async with aiohttp.ClientSession() as session:
             async with session.post(
@@ -27,7 +27,7 @@ class NotificationGatewayImpl(NotificationGateway):
                     error_logger.error(f"Failed to get data. Response code: {resp.status}")
 
     @staticmethod
-    @log_decorator
+    @log_decorator(print_args=False)
     async def send_admins_message(user_id: int, msg: str) -> None:
         async with aiohttp.ClientSession() as session:
             async with session.post(
@@ -42,17 +42,3 @@ class NotificationGatewayImpl(NotificationGateway):
 
 
 
-
-"""
-async with aiohttp.ClientSession() as session:
-    async with session.get(
-            f"https://{os.getenv('CANTEEN_IP')}:{os.getenv('CANTEEN_MICRO_SVC_PORT')}/canteens_menu/{canteen_id}",
-            params={'locale': locale}
-    ) as resp:
-        if resp.status == 200:
-            response_json = await resp.json()
-            return response_json
-        else:
-            error_logger.error(f"Failed to get data. Response code: {resp.status}")
-
-"""
