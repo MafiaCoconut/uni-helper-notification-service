@@ -14,10 +14,10 @@ error_logger = logging.getLogger('error_logger')
 class NotificationGatewayImpl(NotificationGateway):
     @staticmethod
     @log_decorator(print_args=False)
-    async def send_canteens_menu(user_id: int) -> None:
+    async def send_canteens_menu() -> None:
         async with aiohttp.ClientSession() as session:
             async with session.post(
-                    f"{os.getenv('CORE_ADDRESS')}/notification/canteens_menu/{user_id}",
+                    f"{os.getenv('CORE_ADDRESS')}/notification/canteens_menu/sendCanteensMenu",
                     params={}
             ) as resp:
                 if resp.status == 200:

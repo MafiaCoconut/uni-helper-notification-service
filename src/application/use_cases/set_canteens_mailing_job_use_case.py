@@ -11,7 +11,7 @@ class SetCanteensMailingJobUseCase:
         self.scheduler_interface = scheduler_interface
         self.notification_service = notification_service
 
-    async def execute(self, user_id: int, mailing_time: str):
+    async def execute(self, mailing_time: str):
         hour, minute = mailing_time.split(':')
 
         await self.scheduler_interface.add_job(
@@ -21,7 +21,6 @@ class SetCanteensMailingJobUseCase:
                 hour=hour,
                 minute=minute,
                 day_of_week='mon-fri',
-                args=[user_id],
-                id=f"canteens_menu {user_id}",
+                id=f"canteens_menu {mailing_time}",
             ))
 

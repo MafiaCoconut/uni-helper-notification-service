@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 class NotificationGateway(ABC):
     @staticmethod
     @abstractmethod
-    async def send_canteens_menu(user_id: int) -> None:
+    async def send_canteens_menu() -> None:
         pass
 
     @staticmethod
