@@ -31,7 +31,6 @@ class SetAllSchedulersJobsUseCase:
         await self.set_canteens_mailing_job_use_case.execute(mailing_time="11:45")
         await self.set_canteens_mailing_job_use_case.execute(mailing_time="12:00")
         await self.set_canteens_mailing_job_use_case.execute(mailing_time="12:15")
-        await self.set_canteens_mailing_job_use_case.execute(mailing_time="00:05")
 
         # data = await self.users_service.get_users_all()
         #
